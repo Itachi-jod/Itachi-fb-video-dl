@@ -1,8 +1,7 @@
 {
   "name": "fb-video-downloader",
   "version": "1.0.0",
-  "main": "index.js",
-  "type": "module",
+  "main": "api/fbdl.js",
   "dependencies": {
     "axios": "latest",
     "qs": "latest"
