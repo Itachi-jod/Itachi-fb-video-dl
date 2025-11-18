@@ -1,10 +1,10 @@
 {
-  "name": "facebook-video-downloader",
+  "name": "fb-video-downloader",
   "version": "1.0.0",
-  "description": "Facebook video downloader API by ItachiXD (CommonJS)",
   "main": "index.js",
-  "author": "ItachiXD",
+  "type": "module",
   "dependencies": {
-    "node-fetch": "^2.6.11"
+    "axios": "latest",
+    "qs": "latest"
   }
 }
