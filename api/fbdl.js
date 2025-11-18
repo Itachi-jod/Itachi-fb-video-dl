@@ -3,20 +3,24 @@ const qs = require("qs");
 
 module.exports = async function (req, res) {
   try {
+    if (req.method !== "GET") {
+      return res.status(405).json({ error: "Only GET method allowed" });
+    }
+
     const url = req.query.url;
 
     if (!url) {
       return res.status(400).json({ error: "Missing ?url=" });
     }
 
-    const form = qs.stringify({ url });
+    const body = qs.stringify({ url });
 
     const response = await axios.post(
-      "https://fodown.blog/get.php",
-      form,
+      "https://fbdown.blog/get.php",
+      body,
       {
         headers: {
-          "authority": "fodown.blog",
+          "authority": "fbdown.blog",
           "accept": "application/json",
           "accept-language": "en-US,en;q=0.9",
           "content-type": "application/x-www-form-urlencoded",
@@ -41,11 +45,11 @@ module.exports = async function (req, res) {
       data: response.data
     });
 
-  } catch (e) {
+  } catch (err) {
     return res.status(500).json({
       success: false,
-      message: "Failed",
-      error: e.message
+      message: "Upstream API failed",
+      error: err.message
     });
   }
 };
