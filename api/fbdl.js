@@ -31,11 +31,11 @@ module.exports = async function (req, res) {
     const body = qs.stringify({ url });
 
     const response = await axios.post(
-      "https://fodown.blog/get.php",
+      "https://fbdown.blog/get.php",
       body,
       {
         headers: {
-          "authority": "fodown.blog",
+          "authority": "fbdown.blog",
           "accept": "application/json",
           "accept-language": "en-US,en;q=0.9",
           "content-type": "application/x-www-form-urlencoded",
