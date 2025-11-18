@@ -3,20 +3,17 @@ const qs = require("qs");
 
 module.exports = async function (req, res) {
   try {
-    if (req.method !== "POST") {
-      return res.status(405).json({ error: "Only POST method allowed" });
-    }
+    const url = req.query.url;
 
-    const { url } = req.body;
     if (!url) {
-      return res.status(400).json({ error: "Missing url parameter" });
+      return res.status(400).json({ error: "Missing ?url=" });
     }
 
-    const formBody = qs.stringify({ url });
+    const form = qs.stringify({ url });
 
     const response = await axios.post(
       "https://fodown.blog/get.php",
-      formBody,
+      form,
       {
         headers: {
           "authority": "fodown.blog",
@@ -44,12 +41,11 @@ module.exports = async function (req, res) {
       data: response.data
     });
 
-  } catch (err) {
-    console.log("FB Downloader Error:", err.message);
+  } catch (e) {
     return res.status(500).json({
       success: false,
-      error: "Upstream API failed",
-      details: err.message
+      message: "Failed",
+      error: e.message
     });
   }
 };
