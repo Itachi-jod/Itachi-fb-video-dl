@@ -2,25 +2,40 @@ const axios = require("axios");
 const qs = require("qs");
 
 module.exports = async function (req, res) {
+  res.setHeader("Content-Type", "application/json"); // force pretty JSON
+
   try {
+    // Allow only GET without showing any extra warning
     if (req.method !== "GET") {
-      return res.status(405).json({ error: "Only GET method allowed" });
+      return res.status(405).send(
+        JSON.stringify(
+          { error: "Only GET method allowed" },
+          null,
+          2
+        )
+      );
     }
 
     const url = req.query.url;
 
     if (!url) {
-      return res.status(400).json({ error: "Missing ?url=" });
+      return res.status(400).send(
+        JSON.stringify(
+          { error: "Missing ?url=" },
+          null,
+          2
+        )
+      );
     }
 
     const body = qs.stringify({ url });
 
     const response = await axios.post(
-      "https://fbdown.blog/get.php",
+      "https://fodown.blog/get.php",
       body,
       {
         headers: {
-          "authority": "fbdown.blog",
+          "authority": "fodown.blog",
           "accept": "application/json",
           "accept-language": "en-US,en;q=0.9",
           "content-type": "application/x-www-form-urlencoded",
@@ -39,17 +54,29 @@ module.exports = async function (req, res) {
       }
     );
 
-    return res.json({
-      success: true,
-      author: "ItachiXD",
-      data: response.data
-    });
+    return res.status(200).send(
+      JSON.stringify(
+        {
+          success: true,
+          author: "ItachiXD",
+          data: response.data
+        },
+        null,
+        2
+      )
+    );
 
   } catch (err) {
-    return res.status(500).json({
-      success: false,
-      message: "Upstream API failed",
-      error: err.message
-    });
+    return res.status(500).send(
+      JSON.stringify(
+        {
+          success: false,
+          message: "Upstream API failed",
+          error: err.message
+        },
+        null,
+        2
+      )
+    );
   }
 };
