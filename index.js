@@ -63,8 +63,8 @@ module.exports = async (req, res) => {
         success: true,
         author: "ItachiXD",
         thumbnail: data.thumbnail || null,
-        sd: data.sd || null,
-        hd: data.hd || null
+        sd: data.sd_link|| null,
+        hd: data.hd_link || null
       });
 
     } catch (err) {
